@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Set the title of the webpage -->
+  <title>Phone Book</title>
+  <!-- Link to an external CSS file for styling -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+  <!-- Page header section -->
+  <header>
+    <!-- Link back to the homepage with a title -->
+    <a href="index.html"><h1>Phone Book</h1></a>
+    <!-- Button to initiate a search (not yet functional) -->
+    <button>Search</button>
+    <!-- Links to create new contacts and groups -->
+    <a href="contacts.html">New Contacts</a>
+    <a href="groups.html">New Groups</a>
+  </header>
+
+  <!-- Main content section -->
+  <main>
+    <!-- Section to add a new group -->
+    <section class="group-container">
+      <!-- Heading for the new group section -->
+      <h2 class="blue-heading">New Group</h2>
+      <!-- Form to input group details -->
+      <form class="add-group-form">
+        <!-- Table to display available contacts for selection -->
+        <section class="contact-section">
+          <table id="contact-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Add</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Contact rows will be added dynamically here -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Table to display selected participants for the group -->
+        <table id="participant-table">
+          <thead>
+            <tr>
+              <th>Participant</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Participant rows will be added dynamically here -->
+          </tbody>
+        </table>
+
+        <!-- Group name input field -->
+        <label for="group-name">Group Name:</label>
+        <input type="text" id="group-name" name="group_name" required>
+
+        <!-- Group description textarea field -->
+        <label for="group-description">Group Description:</label>
+        <textarea id="group-description" name="group_description"></textarea>
+
+        <!-- Group location input field -->
+        <label for="group-location">Group Location:</label>
+        <input type="text" id="group-location" name="group_location">
+
+        <!-- Button to submit the form and add the group -->
+        <button type="submit">Add Group</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- JavaScript section -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get references to various elements
+      const participantTableBody = document.querySelector("#participant-table tbody");
+      const contactTableBody = document.querySelector("#contact-table tbody");
+      const addGroupForm = document.querySelector(".add-group-form");
+
+      // Function to populate the contact table with available contacts
+      function populateContactTable() {
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
+        contacts.forEach(function(contact) {
+          const row = contactTableBody.insertRow();
+          const nameCell = row.insertCell(0);
+          const phoneCell = row.insertCell(1);
+          const addActionCell = row.insertCell(2);
+
+          nameCell.textContent = contact.name;
+          phoneCell.textContent = contact.phone;
+          addActionCell.innerHTML = '<button class="add-contact">Add</button>';
+        });
+      }
+
+      // Populate the contact table with available contacts
+      populateContactTable();
+
+      // Event listener for adding contacts to the group
+      contactTableBody.addEventListener("click", function(event) {
+        if (event.target.classList.contains("add-contact")) {
+          const selectedRow = event.target.closest("tr");
+          const selectedContact = {
+            name: selectedRow.cells[0].textContent,
+            phone: selectedRow.cells[1].textContent
+          };
+
+          const newRow = participantTableBody.insertRow();
+          const participantCell = newRow.insertCell(0);
+          const actionsCell = newRow.insertCell(1);
+
+          participantCell.textContent = selectedContact.name;
+          actionsCell.innerHTML = '<button class="remove-participant">Remove</button>';
+        }
+      });
+
+      // Form submission logic
+      addGroupForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Retrieve data from input fields
+        const groupName = document.getElementById("group-name").value;
+        const groupDescription = document.getElementById("group-description").value;
+        const groupLocation = document.getElementById("group-location").value;
+
+        // Retrieve the selected participants from the participant table
+        const participantRows = participantTableBody.querySelectorAll("tr");
+        const participants = Array.from(participantRows).map(row => row.cells[0].textContent);
+
+        // Create the new group object
+        const newGroup = {
+          groupName,
+          groupDescription,
+          participants,
+          groupLocation
+        };
+
+        // Save the new group to localStorage or other data storage
+        const groups = JSON.parse(localStorage.getItem("groups")) || [];
+        groups.push(newGroup);
+        localStorage.setItem("groups", JSON.stringify(groups));
+
+        // Reset the form fields and participant table
+        addGroupForm.reset();
+        participantTableBody.innerHTML = "";
+
+        // Redirect to index.html
+        window.location.href = "index.html";
+      });
+
+    });
+  </script>
+</body>
+</html>
+
+
+
+

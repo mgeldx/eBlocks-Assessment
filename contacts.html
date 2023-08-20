@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Set the title of the webpage -->
+  <title>Phone Book</title>
+  <!-- Link to an external CSS file for styling -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <!-- Page header section -->
+  <header>
+    <!-- Link back to the homepage with a title -->
+    <a href="index.html"><h1>Phone Book</h1></a>
+    <!-- Button to initiate a search (not yet functional) -->
+    <button>Search</button>
+    <!-- Links to create new contacts and groups -->
+    <a href="contacts.html">New Contacts</a>
+    <a href="groups.html">New Groups</a>
+  </header>
+
+  <!-- Main content section -->
+  <main>
+    <!-- Section to add a new contact -->
+    <section class="contact-container">
+      <!-- Heading for the new contact section -->
+      <h2 class="blue-heading">New Contact</h2>
+      <!-- Form to input contact details -->
+      <form class="add-contact-form">
+        <!-- First Name input field -->
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first_name" required>
+
+        <!-- Last Name input field -->
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="last_name" required>
+
+        <!-- Phone input field -->
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone">
+
+        <!-- Email input field -->
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+
+        <!-- Address textarea field -->
+        <label for="address">Address</label>
+        <textarea id="address" name="address"></textarea>
+
+        <!-- Notes textarea field -->
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes"></textarea>
+
+        <!-- Button to submit the form and add the contact -->
+        <button type="submit">Add Contact</button>
+      </form>
+    </section>
+  </main>
+  
+  <!-- JavaScript section -->
+  <script>
+    // Execute the script after the page content is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get a reference to the add contact form
+      const addContactForm = document.querySelector(".add-contact-form");
+
+      // Add an event listener to the form submission
+      addContactForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        
+        // Retrieve data from input fields
+        const firstName = document.getElementById("first-name").value;
+        const lastName = document.getElementById("last-name").value;
+        const phone = document.getElementById("phone").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+        const notes = document.getElementById("notes").value;
+
+        // Create a new contact object
+        const newContact = {
+          name: `${firstName} ${lastName}`,
+          phone,
+          email,
+          address,
+          notes
+        };
+
+        // Retrieve existing contacts from local storage or create an empty array
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+        
+        // Add the new contact to the array
+        contacts.push(newContact);
+        
+        // Store the updated contacts array back in local storage
+        localStorage.setItem("contacts", JSON.stringify(contacts));
+
+        // Redirect back to index.html
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+

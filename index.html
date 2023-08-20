@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Set the title of the webpage -->
+  <title>Phone Book</title>
+  <!-- Link to an external CSS file for styling -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <!-- Page header section -->
+  <header>
+    <!-- Link back to the homepage with a title -->
+    <a href="index.html"><h1>Phone Book</h1></a>
+    <!-- Button to initiate a search (not yet functional) -->
+    <button>Search</button>
+    <!-- Links to create new contacts and groups -->
+    <a href="contacts.html">New Contacts</a>
+    <a href="groups.html">New Groups</a>
+  </header>
+
+  <!-- Main content section -->
+  <main class="main-section">
+    <!-- Contact section -->
+    <section class="contact-section">
+      <!-- Heading for the contacts section -->
+      <h2 class="blue-heading">Contacts</h2>
+      <!-- Table for displaying contacts -->
+      <table id="contact-table">
+        <thead>
+          <!-- Table header row -->
+          <tr>
+            <!-- Column headers: Name, Phone, Actions -->
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Placeholder for dynamically added contact rows -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Group section -->
+    <section class="group-section">
+      <!-- Heading for the groups section -->
+      <h2 class="blue-heading">Groups</h2>
+      <!-- Table for displaying groups -->
+      <table id="group-table">
+        <thead>
+          <!-- Table header row -->
+          <tr>
+            <!-- Column headers: Name, Participants, Actions -->
+            <th>Name</th>
+            <th>Participants</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Placeholder for dynamically added group rows -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- JavaScript section -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get references to the contact and group tables
+      const contactTable = document.getElementById("contact-table").getElementsByTagName("tbody")[0];
+      const groupTable = document.getElementById("group-table").getElementsByTagName("tbody")[0];
+
+      // Function to create action buttons for contacts and groups
+      function createActionsButtons(phoneNumber, isGroup = false) {
+        // Depending on whether it's a group, show different buttons
+        return `
+          <button class="call" data-phone="${phoneNumber}">Call</button>
+          <button class="text" data-phone="${phoneNumber}">Text</button>
+          <button class="whatsapp" data-phone="${phoneNumber}">WhatsApp</button>
+          ${isGroup ? `<button class="remove-group" data-group="${phoneNumber}">Remove Group</button>` : `<button class="remove" data-phone="${phoneNumber}">Remove</button>`}
+        `;
+      }
+
+      // Function to create a new row in the contact table
+      function createContactRow(name, phone) {
+        const row = contactTable.insertRow();
+        const nameCell = row.insertCell(0);
+        const phoneCell = row.insertCell(1);
+        const actionsCell = row.insertCell(2);
+
+        // Fill the cells with data and action buttons
+        nameCell.textContent = name;
+        phoneCell.textContent = phone;
+        actionsCell.innerHTML = createActionsButtons(phone);
+      }
+
+      // Function to create a new row in the group table
+      function createGroupRow(name, participants) {
+        const row = groupTable.insertRow();
+        const nameCell = row.insertCell(0);
+        const participantsCell = row.insertCell(1);
+        const actionsCell = row.insertCell(2);
+
+        // Fill the cells with data and action buttons
+        nameCell.textContent = name;
+        participantsCell.textContent = participants.join(", ");
+        actionsCell.innerHTML = createActionsButtons(name, true);
+      }
+
+      // Function to update the contact table with data from local storage
+      function updateContactTable() {
+        contactTable.innerHTML = ""; // Clear the table
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+        contacts.forEach(function(contact) {
+          createContactRow(contact.name, contact.phone);
+        });
+      }
+
+      // Function to update the group table with data from local storage
+      function updateGroupTable() {
+        groupTable.innerHTML = ""; // Clear the table
+        const groups = JSON.parse(localStorage.getItem("groups")) || [];
+        groups.forEach(function(group) {
+          createGroupRow(group.groupName, group.participants);
+        });
+      }
+
+      // Initial population of tables with data from local storage
+      updateContactTable();
+      updateGroupTable();
+
+      // Event delegation to handle button clicks
+      document.addEventListener("click", function(event) {
+        // Handle various button clicks and perform actions
+        if (event.target.classList.contains("call")) {
+          const phoneNumber = event.target.getAttribute("data-phone");
+          alert(`Calling ${phoneNumber}`);
+        } else if (event.target.classList.contains("text")) {
+          const phoneNumber = event.target.getAttribute("data-phone");
+          alert(`Texting ${phoneNumber}`);
+        } else if (event.target.classList.contains("whatsapp")) {
+          const phoneNumber = event.target.getAttribute("data-phone");
+          alert(`Opening WhatsApp for ${phoneNumber}`);
+        } else if (event.target.classList.contains("remove")) {
+          const phoneNumber = event.target.getAttribute("data-phone");
+          // Remove the contact from local storage and update the table
+          const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+          const updatedContacts = contacts.filter(contact => contact.phone !== phoneNumber);
+          localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+          updateContactTable();
+        } else if (event.target.classList.contains("remove-group")) {
+          const groupName = event.target.getAttribute("data-group");
+          // Remove the group from local storage and update the table
+          const groups = JSON.parse(localStorage.getItem("groups")) || [];
+          const updatedGroups = groups.filter(group => group.groupName !== groupName);
+          localStorage.setItem("groups", JSON.stringify(updatedGroups));
+          updateGroupTable();
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>
+
+
+
+

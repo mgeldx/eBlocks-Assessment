@@ -1,0 +1,227 @@
+* 
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body 
+{
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f0f0f0;
+  margin: 0; 
+  overflow: hidden; 
+}
+
+body::before 
+{
+  content: '';
+  background-image: url('image.jpg'); 
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: grayscale(100%) contrast(0.5); 
+  z-index: -1;
+}
+
+
+main 
+{
+  height: 100vh; 
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+
+header 
+{
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+header h1 
+{
+  font-size: 24px;
+  margin: 0;
+}
+
+header a 
+{
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+
+button 
+{
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.blue-heading 
+{
+  color: #007bff;
+}
+
+
+
+#contact-table,
+#group-table 
+{
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#contact-table th,
+#contact-table td,
+#group-table th,
+#group-table td 
+{
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+#contact-table th,
+#group-table th {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+
+.contact-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.contact-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #007bff; 
+}
+
+.contact-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.contact-container input,
+.contact-container textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.contact-container textarea {
+  resize: vertical;
+}
+
+.contact-container button[type="submit"] {
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto; 
+}
+
+.contact-container button[type="submit"]:hover {
+  background-color: #00994d;
+}
+
+
+.group-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.group-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+.add-group-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.add-group-form input[type="text"],
+.add-group-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+
+
+#participant-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#participant-table th,
+#participant-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+#participant-table td{
+	color: #fff;
+}
+
+#participant-table th {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+
+.add-group-form button[type="submit"] {
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto; 
+}
+
+.add-group-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+
+
+
